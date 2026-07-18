@@ -1,0 +1,5 @@
+[
+  {"name": "M. Singh", "shift": "A Shift", "status": "Active", "batch": "B-2048", "training": "Certified", "performance": 97, "activity": "Blend Verification"},
+  {"name": "L. Chen", "shift": "A Shift", "status": "Ready", "batch": "B-2048", "training": "Certified", "performance": 94, "activity": "Material Dispensing"},
+  {"name": "R. Gomez", "shift": "B Shift", "status": "Standby", "batch": "B-2051", "training": "Certified", "performance": 91, "activity": "Line Clearance"}
+]

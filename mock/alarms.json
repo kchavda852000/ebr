@@ -1,0 +1,5 @@
+[
+  {"id": "A-101", "severity": "Critical", "equipment": "Mixer-01", "message": "Temperature deviation above alert band", "acknowledged": false},
+  {"id": "A-102", "severity": "Warning", "equipment": "Dryer-03", "message": "Humidity drift detected", "acknowledged": true},
+  {"id": "A-103", "severity": "Info", "equipment": "Coater-04", "message": "Maintenance window opened", "acknowledged": false}
+]

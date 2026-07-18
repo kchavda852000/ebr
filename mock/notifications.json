@@ -1,0 +1,5 @@
+[
+  {"id": 1, "title": "Batch Started", "message": "Batch B-2048 is now active", "time": "Just now", "tone": "info"},
+  {"id": 2, "title": "QA Pending", "message": "Sampling review awaiting approval", "time": "2m ago", "tone": "warning"},
+  {"id": 3, "title": "Equipment Fault", "message": "Coater-04 maintenance window opened", "time": "7m ago", "tone": "danger"}
+]

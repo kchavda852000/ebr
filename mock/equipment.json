@@ -1,0 +1,6 @@
+[
+  {"id": "Mixer-01", "name": "High-Shear Mixer", "status": "Running", "availability": 98, "performance": 97, "runtime": 184, "downtime": 3, "oee": 96, "health": 94, "maintenanceDue": "3 days", "calibration": "OK"},
+  {"id": "Granulator-02", "name": "Fluid Bed Granulator", "status": "Running", "availability": 96, "performance": 95, "runtime": 167, "downtime": 5, "oee": 94, "health": 92, "maintenanceDue": "6 days", "calibration": "OK"},
+  {"id": "Dryer-03", "name": "Vacuum Dryer", "status": "Idle", "availability": 99, "performance": 91, "runtime": 132, "downtime": 2, "oee": 90, "health": 95, "maintenanceDue": "2 days", "calibration": "Pending"},
+  {"id": "Coater-04", "name": "Tablet Coater", "status": "Maintenance", "availability": 88, "performance": 89, "runtime": 91, "downtime": 11, "oee": 87, "health": 88, "maintenanceDue": "Today", "calibration": "OK"}
+]

@@ -1,0 +1,5 @@
+[
+  {"id": "QC-01", "name": "Assay Check", "status": "Passed", "result": "98.7%"},
+  {"id": "QC-02", "name": "Uniformity", "status": "Pending", "result": "In Progress"},
+  {"id": "QC-03", "name": "Microbial Test", "status": "Scheduled", "result": "Next Step"}
+]

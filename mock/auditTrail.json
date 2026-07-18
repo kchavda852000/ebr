@@ -1,0 +1,4 @@
+[
+  {"time": "08:10", "user": "M. Singh", "module": "Batch Start", "action": "Logged in", "oldValue": "-", "newValue": "Active", "reason": "Shift begin", "ip": "10.24.15.04"},
+  {"time": "08:18", "user": "J. Alvarez", "module": "QA", "action": "Approved", "oldValue": "Pending", "newValue": "Approved", "reason": "Sampling complete", "ip": "10.24.15.12"}
+]

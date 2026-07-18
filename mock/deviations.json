@@ -1,0 +1,4 @@
+[
+  {"id": "D-201", "title": "Humidity spike", "severity": "Major", "status": "Open", "batch": "B-2048"},
+  {"id": "D-202", "title": "Pressure oscillation", "severity": "Minor", "status": "Investigating", "batch": "B-2048"}
+]

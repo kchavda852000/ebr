@@ -1,0 +1,19 @@
+[
+  {
+    "id": "B-2048",
+    "batchNumber": "B-2048",
+    "product": "Acetaminophen 500mg",
+    "recipe": "R-17 Granulation",
+    "status": "Running",
+    "progress": 72,
+    "startedAt": "2026-07-18T08:15:00",
+    "expectedCompletion": "2026-07-18T09:40:00",
+    "operator": "M. Singh",
+    "supervisor": "A. Patel",
+    "qa": "J. Alvarez",
+    "materialConsumption": 86,
+    "equipment": ["Mixer-01", "Granulator-02", "Dryer-03"],
+    "currentStep": "Blend / QC Check",
+    "shift": "A Shift"
+  }
+]

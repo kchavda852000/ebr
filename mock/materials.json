@@ -1,0 +1,20 @@
+[
+  {
+    "name": "API Lot A-221",
+    "lot": "A-221",
+    "stock": 92,
+    "consumption": 18,
+    "expiry": "2026-11-15",
+    "supplier": "Nova Pharma",
+    "status": "In Control"
+  },
+  {
+    "name": "Lactose Excipient",
+    "lot": "L-447",
+    "stock": 74,
+    "consumption": 26,
+    "expiry": "2026-10-02",
+    "supplier": "ChemWorks",
+    "status": "Reserved"
+  }
+]

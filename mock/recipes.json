@@ -1,0 +1,20 @@
+[
+  {
+    "id": "R-17",
+    "name": "Granulation Blend",
+    "version": "3.2",
+    "approvalState": "Approved",
+    "steps": [
+      "Dispense Active Ingredient",
+      "Pre-Mix Excipient",
+      "Granulation",
+      "Drying",
+      "Blend / QC Check"
+    ],
+    "criticalParameters": ["Temperature 28-32°C", "Pressure 2.1-2.4 bar", "RPM 140-180"],
+    "equipment": ["Mixer-01", "Granulator-02", "Dryer-03"],
+    "materials": ["API 500kg", "Lactose 1.2t", "Binder 80kg"],
+    "attachments": ["Master Recipe", "Risk Assessment"],
+    "approvalHistory": ["QA Review Complete", "Engineering Sign-off"]
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "temperature": 30.6,
+  "pressure": 2.24,
+  "humidity": 42.8,
+  "rpm": 164,
+  "tankLevel": 78.2,
+  "weight": 1084,
+  "batchProgress": 72,
+  "remainingTime": 38,
+  "machineStatus": "Running",
+  "operatorStatus": "Active",
+  "currentRecipeStep": "Blend / QC Check",
+  "currentShift": "A Shift",
+  "alarmCount": 3,
+  "oee": 96.1,
+  "yield": 98.3,
+  "energy": 184,
+  "water": 42,
+  "steam": 56
+}
