@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Activity, Bell, ClipboardCheck, Droplets, FlaskConical, Gauge, ShieldCheck, TrendingUp, Zap } from "lucide-react";
 import ReactECharts from "echarts-for-react";
+import { jsPDF } from "jspdf";
 import { useSimulation } from "@/app/components/simulation";
 
 const sidebarItems = [
@@ -28,6 +29,7 @@ const cardClass = "rounded-3xl border border-slate-200/70 bg-white/80 p-5 shadow
 
 export default function Home() {
   const [activeView, setActiveView] = useState<SidebarView>("Dashboard");
+  const [isExporting, setIsExporting] = useState(false);
   const {
     batches,
     recipes,
@@ -72,6 +74,151 @@ export default function Home() {
       ],
       color: ["#2563eb", "#38bdf8", "#f59e0b"],
     }],
+  };
+
+  const exportBatchReport = async () => {
+    setIsExporting(true);
+
+    try {
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const margin = 14;
+      const batchNumber = batches[0]?.batchNumber ?? "B-2048";
+      const product = batches[0]?.product ?? "Acetaminophen 500mg";
+      const recipe = batches[0]?.recipe ?? "Granulation Blend";
+      const batchStatus = batches[0]?.status ?? "Running";
+      const operator = batches[0]?.operator ?? "M. Hingol";
+      const qa = batches[0]?.qa ?? "J. Alvarez";
+
+      const drawSectionHeader = (title: string, y: number) => {
+        pdf.setFillColor(14, 116, 144);
+        pdf.roundedRect(margin, y, pageWidth - margin * 2, 7, 1.5, 1.5, "F");
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(11);
+        pdf.text(title, margin + 3, y + 4.8);
+      };
+
+      const drawMetricBox = (x: number, y: number, width: number, title: string, value: string, accent: [number, number, number]) => {
+        pdf.setFillColor(255, 255, 255);
+        pdf.setDrawColor(226, 232, 240);
+        pdf.roundedRect(x, y, width, 18, 2.2, 2.2, "FD");
+        pdf.setTextColor(accent[0], accent[1], accent[2]);
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(8);
+        pdf.text(title, x + 3, y + 6);
+        pdf.setTextColor(15, 23, 42);
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(10);
+        pdf.text(value, x + 3, y + 13);
+      };
+
+      pdf.setFillColor(248, 250, 252);
+      pdf.rect(0, 0, pageWidth, pageHeight, "F");
+
+      pdf.setFillColor(14, 116, 144);
+      pdf.rect(0, 0, pageWidth, 40, "F");
+      pdf.setTextColor(255, 255, 255);
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(18);
+      pdf.text("Electronic Batch Record", margin, 15);
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(9);
+      pdf.text("Pharmaceutical Manufacturing Execution System", margin, 23);
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(10);
+      pdf.text(`Batch ${batchNumber}`, pageWidth - margin, 15, { align: "right" });
+      pdf.text(batchStatus, pageWidth - margin, 23, { align: "right" });
+
+      pdf.setFillColor(255, 255, 255);
+      pdf.setDrawColor(203, 213, 225);
+      pdf.roundedRect(margin, 48, pageWidth - margin * 2, 26, 2.5, 2.5, "FD");
+      pdf.setTextColor(30, 41, 59);
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(12);
+      pdf.text(product, margin + 4, 58);
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(9);
+      pdf.text(`Recipe: ${recipe} • Operator: ${operator} • QA: ${qa}`, margin + 4, 66);
+
+      const summaryCards = [
+        { title: "Temperature", value: `${machine.temperature}°C`, accent: [37, 99, 235] as [number, number, number] },
+        { title: "Pressure", value: `${machine.pressure} bar`, accent: [14, 116, 144] as [number, number, number] },
+        { title: "Yield", value: `${machine.yield}%`, accent: [5, 150, 105] as [number, number, number] },
+        { title: "OEE", value: `${machine.oee}%`, accent: [217, 119, 6] as [number, number, number] },
+      ];
+
+      summaryCards.forEach((item, index) => {
+        const width = (pageWidth - margin * 2 - 9) / 4;
+        const x = margin + index * (width + 3);
+        drawMetricBox(x, 82, width, item.title, item.value, item.accent);
+      });
+
+      drawSectionHeader("Process Parameters", 108);
+      const parameters = [
+        { label: "Humidity", value: `${machine.humidity}%` },
+        { label: "RPM", value: `${machine.rpm}` },
+        { label: "Tank Level", value: `${machine.tankLevel}%` },
+        { label: "Energy", value: `${metrics.energy} kWh` },
+      ];
+
+      parameters.forEach((item, index) => {
+        const itemWidth = (pageWidth - margin * 2 - 9) / 2;
+        const x = margin + (index % 2) * (itemWidth + 3);
+        const y = 118 + Math.floor(index / 2) * 15;
+        pdf.setFillColor(255, 255, 255);
+        pdf.setDrawColor(226, 232, 240);
+        pdf.roundedRect(x, y, itemWidth, 12, 1.8, 1.8, "FD");
+        pdf.setTextColor(71, 85, 105);
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(8.5);
+        pdf.text(`${item.label}: ${item.value}`, x + 3, y + 7.5);
+      });
+
+      drawSectionHeader("Historical Values", 145);
+      const historyRows = [
+        ["Time", "Temp", "Pressure", "Yield", "Status"],
+        ["08:00", "28.2", "2.11", "97.4", "Dispense"],
+        ["08:15", "29.0", "2.14", "97.8", "Mixing"],
+        ["08:30", "30.1", "2.18", "98.1", "Granulation"],
+        ["08:45", "30.8", "2.21", "98.4", "Drying"],
+        ["09:00", "31.2", "2.24", "98.7", "Blend QC"],
+      ];
+
+      const tableTop = 154;
+      const tableWidth = pageWidth - margin * 2;
+      const colWidths = [24, 24, 24, 24, 26];
+      const tableHeight = 8;
+      historyRows.forEach((row, rowIndex) => {
+        const y = tableTop + rowIndex * tableHeight;
+        const isHeader = rowIndex === 0;
+        pdf.setFillColor(isHeader ? 14 : 249, isHeader ? 116 : 250, isHeader ? 144 : 252);
+        pdf.setDrawColor(203, 213, 225);
+        pdf.rect(margin, y, tableWidth, tableHeight, isHeader ? "FD" : "F");
+        pdf.setTextColor(isHeader ? 255 : 30, isHeader ? 255 : 41, isHeader ? 255 : 59);
+        pdf.setFont("helvetica", isHeader ? "bold" : "normal");
+        pdf.setFontSize(8);
+        let currentX = margin;
+        row.forEach((value, colIndex) => {
+          const width = colWidths[colIndex] + (colIndex === row.length - 1 ? 0 : 0);
+          const cellWidth = colWidths[colIndex];
+          pdf.text(String(value), currentX + 2, y + 5.2);
+          currentX += cellWidth;
+        });
+      });
+
+      pdf.setTextColor(100, 116, 139);
+      pdf.setFont("helvetica", "italic");
+      pdf.setFontSize(8);
+      pdf.text("Generated from the live EBR simulation view • Internal use only", margin, pageHeight - 12);
+
+      pdf.save(`EBR-${batchNumber}.pdf`);
+    } catch (error) {
+      console.error("PDF export failed", error);
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   const renderView = () => {
@@ -352,7 +499,21 @@ export default function Home() {
       };
 
       return (
-        <div className="space-y-6">
+        <div id="ebr-report-export" className="space-y-6">
+          <div className="flex items-center justify-between rounded-3xl border border-slate-200 bg-white/80 p-4 shadow-sm">
+            <div>
+              <p className="text-sm text-slate-500">Electronic Batch Record</p>
+              <h3 className="text-lg font-semibold text-slate-900">{batches[0]?.batchNumber ?? "B-2048"}</h3>
+            </div>
+            <button
+              onClick={exportBatchReport}
+              disabled={isExporting}
+              className="rounded-2xl bg-slate-900 px-3 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {isExporting ? "Generating..." : "Generate PDF"}
+            </button>
+          </div>
+
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {[
               { label: "Plant", value: "Sterile Injectable Facility" },
