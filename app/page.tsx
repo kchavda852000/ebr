@@ -211,7 +211,7 @@ export default function Home() {
       pdf.setTextColor(100, 116, 139);
       pdf.setFont("helvetica", "italic");
       pdf.setFontSize(8);
-      pdf.text("Generated from the live EBR simulation view • Internal use only", margin, pageHeight - 12);
+      pdf.text("Generated from the live EBR demo view • Internal use only", margin, pageHeight - 12);
 
       pdf.save(`EBR-${batchNumber}.pdf`);
     } catch (error) {
@@ -715,7 +715,7 @@ export default function Home() {
           <div className="mb-6 flex items-center justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Pharma MES</p>
-              <h1 className="text-xl font-semibold">EBR Simulation</h1>
+              <h1 className="text-xl font-semibold">EBR Demo</h1>
             </div>
             <div className="rounded-2xl border border-cyan-400/30 bg-cyan-500/10 p-2 text-cyan-300">
               <ShieldCheck size={20} />
